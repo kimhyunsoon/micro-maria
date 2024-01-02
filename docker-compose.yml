@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  mongo:
+    image: mariadb:latest
+    ports:
+      - $OUTER_PORT:$MYSQL_TCP_PORT
+    env_file:
+      - .env
+    command:
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_bin
+      --event-scheduler=ON
+      --max-connections=512
+    volumes:
+      - "$NFS_DIR/data:/var/lib/mysql"
+    networks:
+      - micro_network
+networks:
+  micro_network:
+    external: true
